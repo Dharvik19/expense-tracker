@@ -5,6 +5,7 @@ const AuthProvider =(props)=>{
     const history = useHistory();
     const initialToken = localStorage.getItem('token');
     const [token, setToken] = useState(initialToken);
+    const [profile, setProfile] = useState(null);
     const userIsLoggedIn = !!token;
 
     const loginHandler = (token) => {
@@ -16,12 +17,16 @@ const AuthProvider =(props)=>{
         localStorage.clear('token');
         history.replace('/login');
     }
-
+    const profilehandler=(data)=>{
+        setProfile(data);
+    }
     const authContextValue = {
         token: token,
         isLoggedIn: userIsLoggedIn,
         login: loginHandler,
-        logout: logoutHandler
+        logout: logoutHandler,
+        profileDetails:profilehandler,
+        profile:profile
     };
     return (
         <AuthContext.Provider value={authContextValue}>

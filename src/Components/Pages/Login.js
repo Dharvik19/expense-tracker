@@ -40,7 +40,7 @@ const Login =()=>{
         headers:{
           'Content-Type': 'application/json'
         }
-      }).then(res=>{
+      }).then(res=>{ 
         setLoading(false);
         if(res.ok){
             return res.json();

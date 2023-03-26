@@ -11,28 +11,42 @@ const Profile =()=>{
 
         const enteredName = nameRef.current.value;
         const enteredImageUrl = photoRef.current.value;
-
-        fetch('https://identitytoolkit.googleapis.com/v1/accounts:update?key=AIzaSyDp4Bq20RRH5ry4TmqXE2ScDwgc2wi3cHA',
+        console.log(enteredName + " " +enteredImageUrl );
+      fetch('https://identitytoolkit.googleapis.com/v1/accounts:update?key=AIzaSyDp4Bq20RRH5ry4TmqXE2ScDwgc2wi3cHA',
         {
             method:'POST',
             body:JSON.stringify({
                 idToken:authCtx.token,
                 displayName:enteredName,
-                displayPhoto:enteredImageUrl,
-
+                displayPhoto:enteredImageUrl, 
                 returnSecureToken:true,
-                Headers:{
+                headers:{
                     'Content-Type': "application/json"
                 }
             })   
-        }).then((data)=>{
+        }) .then((res) => {
+          if (res.ok) {
+            return res.json();
+          } else {
+            return res.json().then((data) => {
+              let erroMessage = "Authentication failed!";
+              if (data && data.error && data.error.message) {
+                erroMessage = data.error.message;
+              }
+              throw new Error(erroMessage);
+            });
+          }
+        })
+        
+        .then((data)=>{
             console.log(data)
             console.log('seccess')
           }).catch((err)=>{
             alert(err.message);
           })
     }
-
+    console.log(authCtx.profile.users[0].displayName,'profileform data')
+    const getdata = authCtx.profile.users[0]
     return(
         <>  
             <Row>
@@ -55,17 +69,17 @@ const Profile =()=>{
               <label htmlFor="name">Full Name:</label>
             </div>
             <div>
-              <input type="text" ref={nameRef} ></input>
+              <input type="text" defaultValue={getdata.displayName} ref={nameRef} ></input>
             </div>
             <div>
               <label htmlFor="img"> Profile Photo URL</label>
             </div>
             <div>
-              <input type="text" ref={photoRef} ></input>
+              <input type="text" defaultValue={getdata.displayPhoto} ref={photoRef} ></input>
             </div>
           </div>
           <div>
-            <Button >Update</Button>
+            <Button type="submit" >Update</Button>
           </div>
           <hr />
           </Row>
