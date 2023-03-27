@@ -1,11 +1,11 @@
-import React,{useRef,useContext} from "react";
+import React,{useRef,useContext, useState} from "react";
 import { Button, Col, Container, Row } from "react-bootstrap";
 import AuthContext from "../../FireBaseAuthentication/auth-context";
 const Profile =()=>{
     const authCtx = useContext(AuthContext);
     const nameRef = useRef();
     const photoRef = useRef();
-    
+   
     const onSubmitHandler=(e)=>{
         e.preventDefault();
 
@@ -45,8 +45,26 @@ const Profile =()=>{
             alert(err.message);
           })
     }
-    console.log(authCtx.profile.users[0].displayName,'profileform data')
-    const getdata = authCtx.profile.users[0]
+    const verifyUserHandler = async () => {
+      try {
+          const url = 'https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=AIzaSyDp4Bq20RRH5ry4TmqXE2ScDwgc2wi3cHA';
+          const response = await fetch(url, {
+              method: 'POST',
+              body: JSON.stringify({
+                  requestType: 'VERIFY_EMAIL',
+                  idToken: authCtx.token,
+              }),
+              headers: {
+                  'Content-Type': 'application/json'
+              }
+          });
+          const transformedResponse = await response.json();
+          // console.log(response);
+          // console.log(transformedResponse);
+          
+      } catch (err) { }
+  }
+   
     return(
         <>  
             <Row>
@@ -69,13 +87,13 @@ const Profile =()=>{
               <label htmlFor="name">Full Name:</label>
             </div>
             <div>
-              <input type="text" defaultValue={getdata.displayName} ref={nameRef} ></input>
+              <input type="text" ref={nameRef} ></input>
             </div>
             <div>
               <label htmlFor="img"> Profile Photo URL</label>
             </div>
             <div>
-              <input type="text" defaultValue={getdata.displayPhoto} ref={photoRef} ></input>
+              <input type="text"  ref={photoRef} ></input>
             </div>
           </div>
           <div>
@@ -83,6 +101,11 @@ const Profile =()=>{
           </div>
           <hr />
           </Row>
+          {<Row className="justify-content-center mt-5 mx-3">
+                <Col xs={8} className="d-grid">
+                    <Button className="float" onClick={verifyUserHandler}>Send verification email</Button>
+                </Col>
+            </Row>}
         </Container>
       </form>
         </>
