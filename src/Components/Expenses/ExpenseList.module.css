@@ -1,0 +1,63 @@
+.container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    background-color: rgba(136, 104, 185, 0.5);
+    margin: 2rem 0;
+    position: relative;
+    height: 300px;
+}
+h3{
+    font-weight:bold ;
+    font-size: 35px;
+    position: absolute;
+    left: 25px;
+    top:5px;
+    text-decoration: underline;
+}
+.ul{
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+    /* background-color: red; */
+    padding: 0 10px;
+    height: 300px;
+    width: 97%;
+    scrollbar-width: thin;
+    /* background-color: red; */
+}
+.ul::-webkit-scrollbar{
+    width: 10px;
+}
+/* .ul::-webkit-scrollbar-track{
+    background-color: rgba(128, 128, 128, 0.1);
+} */
+.ul::-webkit-scrollbar-thumb{
+    background-color: rgb(106, 85, 138,0.639);
+    border-radius: 10px;
+}
+.ul::-webkit-scrollbar-thumb:hover{
+    background-color: rgba(106, 85, 138);
+    border-radius: 10px;
+}
+/*style={{ backgroundColor: "rgba( 255, 255, 255,0.7)"
+    ,backdropFilter:"blur(10px)"
+    ,WebkitBackdropFilter:"blur(10px)"
+    , color:"rgba(32, 16, 57,1)",
+    borderBottom:"4px solid rgba(82, 40, 145, 1)", 
+    padding:"10px 20px", borderRadius:"10px", 
+    margin:"5px 0" }}
+ */
+ .listItem{
+    background-color: rgb(255, 255, 255,0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    color:rgba(32, 16, 57,1);
+    border-bottom: 4px solid rgba(82, 40, 145);
+    padding: 10px 20px;
+    border-radius: 10px;
+    margin:5px 0;
+ }
